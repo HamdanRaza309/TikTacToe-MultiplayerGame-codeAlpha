@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './App.css'; // Ensure this points to your CSS file
+import React, { useEffect, useState } from 'react';
+import './App.css';
 import Square from './Square/Square';
 
 const renderFrom = [
@@ -11,6 +11,10 @@ const renderFrom = [
 const App = () => {
 
   const [gameState, setGameState] = useState(renderFrom);
+  const [currentPlayer, setCurrentPlayer] = useState('cross');
+  const [fineshedState, setFineshedState] = useState(false)
+
+
 
   return (
     <div className='main-div'>
@@ -21,13 +25,19 @@ const App = () => {
       <div>
         <h1 className='game-heading water-bg'>Tic Tac Toe</h1>
         <div className="square-wrapper">
-          {gameState.map((arr, rowIndex) => (
-            <div key={rowIndex}>
-              {arr.map(e => (
-                <Square key={e} />
-              ))}
-            </div>
-          ))}
+          {gameState.map((arr, rowIndex) =>
+            arr.map((e, colIndex) => (
+              <Square
+                key={rowIndex * 3 + colIndex}
+                id={rowIndex * 3 + colIndex}
+                setGameState={setGameState}
+                currentPlayer={currentPlayer}
+                setCurrentPlayer={setCurrentPlayer}
+                fineshedState={fineshedState}
+                setFineshedState={setFineshedState}
+              />
+            )
+            ))}
         </div>
       </div>
     </div>
