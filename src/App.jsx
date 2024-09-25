@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Square from './Square/Square';
 import { io } from 'socket.io-client';
-export const socket = io('http://localhost:3000', {
-  autoConnect: true
-});
+import Swal from 'sweetalert2';
+
 
 const renderFrom = [
   [1, 2, 3],
@@ -19,6 +18,8 @@ const App = () => {
   const [finishedState, setFinishedState] = useState(false);
   const [finishedArrayState, setFinishedArrayState] = useState([]);
   const [playOnline, setPlayOnline] = useState(false);
+  const [socket, setSocket] = useState(null);
+  const [playerName, setPlayerName] = useState('')
 
   const checkWinner = () => {
     // Check rows
@@ -80,11 +81,43 @@ const App = () => {
     }
   }, [gameState]);
 
+  const takePlayerName = async () => {
+    const result = await Swal.fire({
+      title: "Enter your Name",
+      input: "text",
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to write something!";
+        }
+      }
+    });
+    return result;
+  }
+
+  socket?.on('connect', function () {
+    setPlayOnline(true);
+  })
+
+  async function handlePlayOnline() {
+    const result = await takePlayerName();
+    if (!result.isConfirmed) {
+      return;
+    }
+
+    const playerName = result.value;
+    setPlayerName(playerName);
+
+    const newSocket = io('http://localhost:3000', {
+      autoConnect: true
+    });
+    setSocket(newSocket);
+  }
 
   if (!playOnline) {
     return <div className='main-div'>
       <div className='headings'>
-        <button className='play-online'>Play Online</button>
+        <button onClick={handlePlayOnline} className='play-online'>Play Online</button>
         <small className='slogan'>Hamdan - Games</small>
       </div>
     </div>

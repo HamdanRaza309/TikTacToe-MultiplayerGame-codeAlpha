@@ -7,7 +7,7 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-    console.log(socket);
+    console.log('New User Joind Socket', socket.id);
 
 });
 
