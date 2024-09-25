@@ -20,6 +20,7 @@ const App = () => {
   const [playOnline, setPlayOnline] = useState(false);
   const [socket, setSocket] = useState(null);
   const [playerName, setPlayerName] = useState('')
+  const [opponentName, setOpponentName] = useState(null);
 
   const checkWinner = () => {
     // Check rows
@@ -99,6 +100,15 @@ const App = () => {
     setPlayOnline(true);
   })
 
+  socket?.on("OpponentNotFound", function () {
+    setOpponentName(false);
+  });
+
+  socket?.on("OpponentFound", function (data) {
+    console.log(data);
+    setOpponentName(data.opponentName);
+  });
+
   async function handlePlayOnline() {
     const result = await takePlayerName();
     if (!result.isConfirmed) {
@@ -110,6 +120,9 @@ const App = () => {
 
     const newSocket = io('http://localhost:3000', {
       autoConnect: true
+    });
+    newSocket?.emit('request_to_play', {
+      playerName: playerName,
     });
     setSocket(newSocket);
   }
@@ -123,11 +136,20 @@ const App = () => {
     </div>
   }
 
+  if (playOnline && !opponentName) {
+    return (
+      <div className="loader-container">
+        <div className="spinner"></div>
+        <div className="loader-text">Waiting for Opponent...</div>
+      </div>
+    );
+  }
+
   return (
     <div className='main-div'>
       <div className="move-detection">
-        <div className='left-side'>You</div>
-        <div className='right-side'>Opponent</div>
+        <div className='left-side'>{playerName}</div>
+        <div className='right-side'>{opponentName}</div>
       </div>
       <div>
         <h1 className='game-heading water-bg'>Tic Tac Toe</h1>
@@ -153,6 +175,10 @@ const App = () => {
         {
           finishedState && finishedState === 'Draw' &&
           (<h1 className='finished-state'>It's a {finishedState}</h1>)
+        }
+        {
+          !finishedState && opponentName &&
+          (<h4>You are playing against {opponentName}</h4>)
         }
       </div>
     </div>
