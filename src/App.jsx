@@ -12,7 +12,8 @@ const App = () => {
 
   const [gameState, setGameState] = useState(renderFrom);
   const [currentPlayer, setCurrentPlayer] = useState('Cross');
-  const [finishedState, setFinishedState] = useState(false)
+  const [finishedState, setFinishedState] = useState(false);
+  const [finishedArrayState, setFinishedArrayState] = useState([]);
 
   const checkWinner = () => {
     // Check rows
@@ -22,6 +23,7 @@ const App = () => {
         gameState[row][0] === gameState[row][1] &&
         gameState[row][1] === gameState[row][2]
       ) {
+        setFinishedArrayState([row * 3 + 0, row * 3 + 1, row * 3 + 2]);
         return gameState[row][0];
       }
     }
@@ -33,6 +35,7 @@ const App = () => {
         gameState[0][col] === gameState[1][col] &&
         gameState[1][col] === gameState[2][col]
       ) {
+        setFinishedArrayState([0 * 3 + col, 1 * 3 + col, 2 * 3 + col])
         return gameState[0][col];
       }
     }
@@ -92,6 +95,7 @@ const App = () => {
                 currentPlayer={currentPlayer}
                 setCurrentPlayer={setCurrentPlayer}
                 finishedState={finishedState}
+                finishedArrayState={finishedArrayState}
               />
             )
             ))}
