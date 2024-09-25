@@ -48,15 +48,17 @@ function Square({
     setGameState,
     currentPlayer,
     setCurrentPlayer,
-    fineshedState,
-    setFineshedState,
+    finishedState,
 }) {
 
     const [icon, setIcon] = useState(null);
 
     const clickOnSquare = () => {
+        if (finishedState) {
+            return;
+        }
         if (!icon) {
-            if (currentPlayer === 'circle') {
+            if (currentPlayer === 'Circle') {
                 setIcon(circleSvg)
             } else {
                 setIcon(crossSvg)
@@ -68,16 +70,15 @@ function Square({
                 const colIndex = id % 3;
                 const myCurrentPlayer = currentPlayer;
                 newState[rowIndex][colIndex] = myCurrentPlayer;
-                console.log(newState);
 
                 return prevState
             })
-            setCurrentPlayer(currentPlayer === 'circle' ? 'cross' : 'circle');
+            setCurrentPlayer(currentPlayer === 'Circle' ? 'Cross' : 'Circle');
         }
     }
 
     return (
-        <div onClick={clickOnSquare} className='square'>
+        <div onClick={clickOnSquare} className={`square ${finishedState ? 'not-allowed' : ''}`}>
             {icon}
         </div>
     )

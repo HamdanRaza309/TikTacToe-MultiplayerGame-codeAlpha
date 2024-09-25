@@ -11,7 +11,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10vh;
+  margin-top: 5vh;
 }
 
 .water-bg {
@@ -47,4 +47,9 @@ body {
   padding-top: 6px;
   text-align: center;
   font-size: 18px;
+}
+
+.finished-state {
+  font-size: 30px;
+  text-align: center;
 }
