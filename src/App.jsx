@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Square from './Square/Square';
+import { io } from 'socket.io-client';
+export const socket = io('http://localhost:3000', {
+  autoConnect: true
+});
 
 const renderFrom = [
   [1, 2, 3],
@@ -14,6 +18,7 @@ const App = () => {
   const [currentPlayer, setCurrentPlayer] = useState('Cross');
   const [finishedState, setFinishedState] = useState(false);
   const [finishedArrayState, setFinishedArrayState] = useState([]);
+  const [playOnline, setPlayOnline] = useState(false);
 
   const checkWinner = () => {
     // Check rows
@@ -76,6 +81,14 @@ const App = () => {
   }, [gameState]);
 
 
+  if (!playOnline) {
+    return <div className='main-div'>
+      <div className='headings'>
+        <button className='play-online'>Play Online</button>
+        <small className='slogan'>Hamdan - Games</small>
+      </div>
+    </div>
+  }
 
   return (
     <div className='main-div'>
