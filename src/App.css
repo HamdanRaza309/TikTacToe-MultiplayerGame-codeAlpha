@@ -52,20 +52,22 @@ body {
   text-align: center;
 }
 
-.water-bg {
+.water-background {
   background-color: #4b495f;
 }
 
 .game-heading {
-  padding: 10px 70px;
+  padding: 5px 20px;
   border-radius: 5px;
   text-align: center;
+  font-size: 40px;
 }
 
 .square-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
+  row-gap: 10px;
+  column-gap: 10px;
 }
 
 .move-detection {
@@ -75,53 +77,42 @@ body {
   width: 400px;
 }
 
-.left-side,
-.right-side {
-  height: 30px;
-  width: 130px;
-  background-color: #4b495f;
-  border-bottom-left-radius: 50px;
-  border-top-right-radius: 50px;
-  padding-top: 6px;
-  text-align: center;
-  font-size: 18px;
-}
-
 .finished-state {
   font-size: 30px;
   text-align: center;
-  color: #ff9800;
 }
 
-/* Loader */
-.loader-container {
+.left,
+.right {
+  height: 30px;
+  width: 180px;
+  background-color: red;
+  border-bottom-left-radius: 50px;
+  background-color: #4b495f;
+  border-top-right-radius: 50px;
+  padding-top: 7px;
+  font-size: 18px;
+  padding-bottom: 5px;
+  text-align: center;
+}
+
+.waiting {
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  flex-direction: column;
+  position: absolute;
+  font-size: 44px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
-.loader-text {
-  font-size: 1.5rem;
-  color: #ff9800;
-  margin-top: 20px;
+.current-move-cross {
+  background-color: #3fa7f0 !important;
 }
 
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 8px solid rgba(0, 0, 0, 0.1);
-  border-top: 8px solid #ff9800;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.current-move-circle {
+  background-color: #dd7f9f !important;
 }
